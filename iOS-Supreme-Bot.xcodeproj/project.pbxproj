@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4ACC92E12409C0F500B60A33 /* Supreme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACC92E02409C0F500B60A33 /* Supreme.swift */; };
 		4AFEA628240995D800BA3893 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFEA627240995D800BA3893 /* AppDelegate.swift */; };
 		4AFEA62A240995D800BA3893 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFEA629240995D800BA3893 /* SceneDelegate.swift */; };
 		4AFEA62C240995D800BA3893 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFEA62B240995D800BA3893 /* ViewController.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4ACC92E02409C0F500B60A33 /* Supreme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Supreme.swift; sourceTree = "<group>"; };
 		4AFEA624240995D800BA3893 /* iOS-Supreme-Bot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-Supreme-Bot.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AFEA627240995D800BA3893 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4AFEA629240995D800BA3893 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 				4AFEA627240995D800BA3893 /* AppDelegate.swift */,
 				4AFEA629240995D800BA3893 /* SceneDelegate.swift */,
 				4AFEA62B240995D800BA3893 /* ViewController.swift */,
+				4ACC92E02409C0F500B60A33 /* Supreme.swift */,
 				4AFEA62D240995D800BA3893 /* Main.storyboard */,
 				4AFEA633240995DA00BA3893 /* Assets.xcassets */,
 				4AFEA635240995DA00BA3893 /* LaunchScreen.storyboard */,
@@ -143,6 +146,7 @@
 			files = (
 				4AFEA62C240995D800BA3893 /* ViewController.swift in Sources */,
 				4AFEA628240995D800BA3893 /* AppDelegate.swift in Sources */,
+				4ACC92E12409C0F500B60A33 /* Supreme.swift in Sources */,
 				4AFEA62A240995D800BA3893 /* SceneDelegate.swift in Sources */,
 				4AFEA632240995D800BA3893 /* iOS_Supreme_Bot.xcdatamodeld in Sources */,
 			);
