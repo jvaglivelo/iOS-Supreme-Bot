@@ -1,0 +1,6 @@
+framework module Pods_iOS_Supreme_Bot {
+  umbrella header "Pods-iOS-Supreme-Bot-umbrella.h"
+
+  export *
+  module * { export * }
+}
