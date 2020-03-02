@@ -16,6 +16,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     //var supremeBot: Supreme?
     let defaults = UserDefaults.standard
     var loaded:Bool = false
+    var botRunning:Bool = false
     
     //Objects
     @IBOutlet weak var webContainer: UIView!
