@@ -29,23 +29,23 @@ class Supreme
     //Edit here
     
     //Item Info
-    var items:[String] = ["bird"]
-    var categories:[String] = ["accessories"]
-    var sizes:[String] = ["n/a"]
-    var colors:[String] = ["red"]
+    var items:[String] = ["bead", "snake"]
+    var categories:[String] = ["accessories", "shirts"]
+    var sizes:[String] = ["n/a", "medium"]
+    var colors:[String] = ["red", "black"]
 
     //User Info
-    var uName = "Test Profile"
+    var uName = "Test Person"
     var uEmail = "test@gmail.com"
-    var uPhone = "1231111111"
+    var uPhone = "1234445678"
     var uAddress = "123 Fake St"
-    var uAddress2 = ""
+    var uAddress2 = "Apt 69420"
     var uCity = "New York City"
     var uState = "NY"
     var uZip = "10001"
     var uCCNum = "1111222233334444"
-    var uCCMonth = "22"
-    var uCCYear = "2022"
+    var uCCMonth = "06"
+    var uCCYear = "2023"
     var uCCCVV = "123"
 
     var location = "US" //Use "US" or "EU"
@@ -161,7 +161,7 @@ class Supreme
         }
         
         
-        print("checking out: ",W2CName, "\t in: ", W2CCategory)
+        print("checking out:",W2CName, "\t in:", W2CCategory)
         self.loadCategory()
 
     }
@@ -170,7 +170,7 @@ class Supreme
     func stopProcess()
     {
         //return time
-        print("stop")
+        print("completed")
         print("Checked out in", seconds, "seconds")
         seconds = 0
         
@@ -353,7 +353,7 @@ class Supreme
         {
             DispatchQueue.main.async{
                 self.viewController?.supremeBrowser?.evaluateJavaScript("""
-                    var keyword = 'bird'
+                    var keyword = '\(self.W2CName)'
                     var items = document.getElementsByClassName("name");
                     for (item of items) {
                         var name = item.innerHTML.toLowerCase()
@@ -507,14 +507,13 @@ class Supreme
                 if name.lowercased().contains(W2CColor) || W2CColor == "n/a"{
                     
                     //convert id to correct formatting
-                    print("Color entered is:", name, "with ID:", id)
+                    print("color entered is:", name, "with ID:", id)
                     let selectedStyle = "style-" + String(id)
                     
                     //select color on website
                     let browserDelayQColor = DispatchQueue(label: "browserDelayQColor", qos: .userInitiated)
                     browserDelayQColor.asyncAfter(deadline: .now() + .milliseconds(75))
                     {
-                        print("chose color")
                         DispatchQueue.main.async {
                             self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementById(\"\(selectedStyle)\").getElementsByClassName('style-thumb')[0].click()", completionHandler: nil)
                         }
@@ -532,10 +531,10 @@ class Supreme
                     //look for matching size
                     for (sName, sID) in dictSizes{
                         if sName.lowercased() == (W2CSize){
-                            print("Size entered is:", sName, "with ID:", sID)
+                            print("size entered is:", sName, "with ID:", sID)
                             //make sure size is in stock
                             if dictStock[sName] == 0{
-                                print("OOS")
+                                print("oos")
                                 self.stopProcess()
                             }else{
                                 print("in stock")
@@ -567,7 +566,7 @@ class Supreme
     //add the item to the cart
     func addToCart()
     {
-        print("Add to cart!")
+        print("add to cart!")
         DispatchQueue.main.async{
             self.viewController?.supremeBrowser?.evaluateJavaScript("""
                 atcBtn = document.getElementsByClassName("cart-button")[0];
