@@ -78,21 +78,21 @@ class Supreme
     var currentItem = 0
     
     //IDs
-    var idName = ""
-    var idEmail = ""
-    var idPhone = ""
-    var idAddress1 = ""
-    var idAddress2 = ""
-    var idAddress3 = ""
-    var idZip = ""
-    var idCity = ""
-    var idState = ""
-    var idCountry = ""
+    var idName = "order_bn"
+    var idEmail = "order_email"
+    var idPhone = "order_tel"
+    var idAddress1 = "order_billing_address"
+    var idAddress2 = "order_billing_address_2"
+    var idAddress3 = "order_billing_address_3"
+    var idZip = "obz"
+    var idCity = "order_billing_city"
+    var idState = "order_billing_state"
+    var idCountry = "order_billing_country"
     var idCCType = ""
-    var idCC = ""
-    var idCCM = ""
-    var idCCY = ""
-    var idCVV = ""
+    var idCC = "cnid"
+    var idCCM = "credit_card_month"
+    var idCCY = "credit_card_year"
+    var idCVV = "cvv"
     
     var addressPt2 = false
 
