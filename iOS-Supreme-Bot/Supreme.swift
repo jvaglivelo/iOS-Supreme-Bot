@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SwiftyJson
+import SwiftyJSON
 
 extension String {
     subscript (bounds: CountableClosedRange<Int>) -> String {
