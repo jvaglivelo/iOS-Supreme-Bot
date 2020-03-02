@@ -29,7 +29,7 @@ class Supreme
     //Edit here
     
     //Item Info
-    var items:[String] = ["bird"]
+    var items:[String] = ["beaded"]
     var categories:[String] = ["accessories"]
     var sizes:[String] = ["n/a"]
     var colors:[String] = ["red"]

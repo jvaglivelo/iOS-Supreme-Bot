@@ -13,9 +13,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
 
     //Variables
     var supremeBrowser: WKWebView?
-    //var supremeBot: Supreme?
+    var supremeBot: Supreme?
     let defaults = UserDefaults.standard
-    var loaded:Bool = false
     var botRunning:Bool = false
     
     //Objects
@@ -26,7 +25,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         super.viewDidLoad()
 
         //Initialize Bot
-        //self.supremeBot = Supreme(withViewController: self)
+        self.supremeBot = Supreme(withViewController: self)
 
         //Setup browser
         createSupremeBrowser()
@@ -48,16 +47,11 @@ class ViewController: UIViewController, WKNavigationDelegate {
         self.supremeBrowser!.load(URLRequest(url: URL(string: "https://www.supremenewyork.com/mobile/#categories")!))
     }
 
-    
-    //Print 'loaded' when the site loads
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        print("loaded")
-        //Once loaded, set to true so bot can begin
-        loaded = true
-    }
-    
+        
     @IBAction func btnRunTapped(_ sender: Any) {
-        //Start Bot
+        if (botRunning == false){
+            supremeBot?.startProcess()
+        }
     }
     
 
