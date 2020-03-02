@@ -49,6 +49,12 @@ class Supreme
     var uCCCVV = "123"
 
     var location = "US" //Use "US" or "EU"
+    var atc:Bool = false
+    var atcDelay = 2000 //ms
+    
+    //ccType not needed for US
+    var ccType = "Visa" // "Visa", "American Express", "Mastercard", "Solo"
+    
     
     //DO NOT EDIT BELOW THIS LINE
     
@@ -88,7 +94,7 @@ class Supreme
     var idCity = "order_billing_city"
     var idState = "order_billing_state"
     var idCountry = "order_billing_country"
-    var idCCType = ""
+    var idCCType = "" //not applicable for North America
     var idCC = "cnid"
     var idCCM = "credit_card_month"
     var idCCY = "credit_card_year"
@@ -474,14 +480,18 @@ class Supreme
         
         print("setting size and color")
         
+        //Keep track of everything from the JSON file
         var arraySizeName = [String]()
         var arraySizeStock = [String]()
         var arraySizeID = [String]()
         var dictStyle = [String: Int]()
         var dictSizes = [String: String]()
         var dictStock = [String: Int]()
+        
         do {
             let json = try JSON(data: jsonFData)
+            
+            //create dictionary of style id, name, and stock
             for item in json["styles"].arrayValue {
                 
                 dictStyle[(item["name"].stringValue)] = Int((item["id"].stringValue))
@@ -492,11 +502,15 @@ class Supreme
                     arraySizeID.append(innerItem["id"].stringValue)
                 }
             }
+            //look for matching color name (if color is n/a then it doesnt matter,)
             for (name, id) in dictStyle{
-                if name.lowercased().contains(W2CColor) || W2CColor == "none"{
+                if name.lowercased().contains(W2CColor) || W2CColor == "n/a"{
+                    
+                    //convert id to correct formatting
                     print("Color entered is:", name, "with ID:", id)
                     let selectedStyle = "style-" + String(id)
                     
+                    //select color on website
                     let browserDelayQColor = DispatchQueue(label: "browserDelayQColor", qos: .userInitiated)
                     browserDelayQColor.asyncAfter(deadline: .now() + .milliseconds(75))
                     {
@@ -505,7 +519,7 @@ class Supreme
                             self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementById(\"\(selectedStyle)\").getElementsByClassName('style-thumb')[0].click()", completionHandler: nil)
                         }
                     }
-                    //get sizes
+                    //create dictionary of sizes
                     for item in json["styles"].arrayValue {
                         if (item["name"].stringValue) == name{
                             for innerItem in item["sizes"].arrayValue {
@@ -515,14 +529,17 @@ class Supreme
                             
                         }
                     }
+                    //look for matching size
                     for (sName, sID) in dictSizes{
                         if sName.lowercased() == (W2CSize){
                             print("Size entered is:", sName, "with ID:", sID)
+                            //make sure size is in stock
                             if dictStock[sName] == 0{
                                 print("OOS")
                                 self.stopProcess()
                             }else{
                                 print("in stock")
+                                //select size on site and dispatchEvent to make it display changes
                                 let browserDelayQ3 = DispatchQueue(label: "browswerBackgroundQ3", qos: .userInitiated)
                                 browserDelayQ3.asyncAfter(deadline: .now() + .milliseconds(140))
                                 {
@@ -541,16 +558,13 @@ class Supreme
                     }
                 }
             }
-            
-            
-
         } catch {
             print(error)
         }
     }
         
         
-    //Select item size, and color if exists, then add to cart, click checkout
+    //add the item to the cart
     func addToCart()
     {
         print("Add to cart!")
@@ -569,7 +583,9 @@ class Supreme
         }
     }
     
+    //make sure item is in cart
     func isInCart(){
+        //get the 'add to cart' button text
         DispatchQueue.main.async{
             self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementById('cart-update').children[0].innerHTML",
                                                                 completionHandler:
@@ -579,9 +595,8 @@ class Supreme
                         self.isInCart()
                     }else{
                         let strStyle = (style as! String)
-
+                        //if the button says 'remove', then the item is in the cart
                         if strStyle == "remove" {
-                            //if in cart
                             if self.currentItem != self.numItems{
                                 self.startNext()
                             }else{
@@ -597,10 +612,10 @@ class Supreme
     }
     
     
-    
+    //navigate to checkout page
     func checkoutButton(){
+        //again, double check that the add to cart button now reads 'remove'
         DispatchQueue.main.async{
-            
             self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementById('cart-update').children[0].innerHTML",
                                                                     completionHandler:
                 { (style: Any?, error: Error?) in
@@ -609,7 +624,7 @@ class Supreme
                         self.checkoutButton()
                     }else{
                         let strCartStyle = (style as! String)
-
+                        //if item definitly in cart, navigate to checkout form with a random delay
                         if strCartStyle == "remove" {
                             let ranDelayCheckout = Int.random(in: 70 ... 100)
                             let browserDelayQ6 = DispatchQueue(label: "browswerBackgroundQ6", qos: .userInitiated)
@@ -617,8 +632,6 @@ class Supreme
                             {
                                 DispatchQueue.main.async{
                                 self.viewController?.supremeBrowser?.evaluateJavaScript("window.location.href = 'https://www.supremenewyork.com/mobile/#checkout';", completionHandler: nil)
-
-
                                 }
                             }
                             if self.viewController?.botRunning == true{
@@ -635,7 +648,9 @@ class Supreme
         }
     }
 
+    //make sure the form has loaded
     func canPaste(){
+        //check if the 'submit' button exists
         DispatchQueue.main.async{
             
             self.viewController?.supremeBrowser?.evaluateJavaScript("""
@@ -648,74 +663,26 @@ class Supreme
                     if loaded == nil{
                         self.canPaste()
                     }else{
+                        //if button exists, begin to checkout
                         print("checking out")
                         let ranDelayPaste = Int.random(in: 125 ... 175)
                         let browserDelayQ7 = DispatchQueue(label: "browswerBackgroundQ7", qos: .userInitiated)
                         browserDelayQ7.asyncAfter(deadline: .now() + .milliseconds(ranDelayPaste))
                         {
-                            self.getCheckoutInfo()
+                            self.pasteInfo()
                         }
                     }
             })
         }
         
     }
-    
-    func getCheckoutInfo(){
-        if (self.defaults.bool(forKey: "EU") == true){
-
-            Alamofire.request("https://vopemz.github.io/bkup/f-eu.html").responseString { response in
-                let checkoutStr = response.result.value!
-                var checkoutList = checkoutStr.split{$0 == ","}.map(String.init)
-            
-                self.idName = checkoutList[0]
-                self.idEmail = checkoutList[1]
-                self.idPhone = checkoutList[2]
-                self.idAddress1 = checkoutList[3]
-                self.idAddress2 = checkoutList[4]
-                self.idAddress3 = checkoutList[5]
-                self.idCity = checkoutList[6]
-                self.idZip = checkoutList[7]
-                self.idState = checkoutList[8]
-                self.idCCType = checkoutList[9]
-                self.idCC = checkoutList[10]
-                self.idCCM = checkoutList[11]
-                self.idCCY = checkoutList[12]
-                self.idCVV = checkoutList[13]
-            }
-        }else{
-            Alamofire.request("https://vopemz.github.io/bkup/f-us.html").responseString { response in
-                let checkoutStr = response.result.value!
-                var checkoutList = checkoutStr.split{$0 == ","}.map(String.init)
-                
-                self.idName = checkoutList[0]
-                self.idEmail = checkoutList[1]
-                self.idPhone = checkoutList[2]
-                self.idAddress1 = checkoutList[3]
-                self.idAddress2 = checkoutList[4]
-                self.idZip = checkoutList[5]
-                self.idCity = checkoutList[6]
-                self.idState = checkoutList[7]
-                self.idCountry = checkoutList[8]
-                self.idCC = checkoutList[9]
-                self.idCCM = checkoutList[10]
-                self.idCCY = checkoutList[11]
-                self.idCVV = checkoutList[12]
-            }
-
-        }
-        if self.idName != ""{
-            self.pasteInfo()
-        }else{
-            self.getCheckoutInfo()
-        }
-    }
-    
+        
     //FUNCTION PASTEINFO - paste profile information into checkout screen
     func pasteInfo()
     {
         print("begin autofill")
         
+        //make sure all information is provided to avoid problems
         if uName.isEmpty{
             DispatchQueue.main.async{
                 print("Missing: Name")
@@ -801,7 +768,9 @@ class Supreme
             return
         }
         
-        //NAME
+        //begin filling out the form
+        
+        //name
         let browserDelayQ8 = DispatchQueue(label: "browswerBackgroundQ8", qos: .userInitiated)
         browserDelayQ8.asyncAfter(deadline: .now() + .milliseconds(150))
         {
@@ -813,7 +782,7 @@ class Supreme
             }
         }
             
-        //EMAIL
+        //email
         let browserDelayQ9 = DispatchQueue(label: "browswerBackgroundQ9", qos: .userInitiated)
         browserDelayQ9.asyncAfter(deadline: .now() + .milliseconds(200))
         {
@@ -824,7 +793,7 @@ class Supreme
             }
         }
         
-        //PHONE
+        //phone
         let browserDelayQ10 = DispatchQueue(label: "browserDelayQ10", qos: .userInitiated)
         browserDelayQ10.asyncAfter(deadline: .now() + .milliseconds(250))
         {
@@ -836,7 +805,7 @@ class Supreme
             }
         }
         
-        //ADDRESS
+        //address
         let browserDelayQ11 = DispatchQueue(label: "browswerBackgroundQ11", qos: .userInitiated)
         browserDelayQ11.asyncAfter(deadline: .now() + .milliseconds(300))
         {
@@ -860,7 +829,7 @@ class Supreme
             }
         }
         
-        //ZIP
+        //zip
         let browserDelayQ12 = DispatchQueue(label: "browswerBackgroundQ12", qos: .userInitiated)
         browserDelayQ12.asyncAfter(deadline: .now() + .milliseconds(350))
         {
@@ -872,7 +841,7 @@ class Supreme
             }
         }
         
-        //CITY
+        //city
         let browserDelayQ13 = DispatchQueue(label: "browswerBackgroundQ13", qos: .userInitiated)
         browserDelayQ13.asyncAfter(deadline: .now() + .milliseconds(400))
         {
@@ -886,7 +855,7 @@ class Supreme
             }
         }
         
-        //COUNTRY / STATE
+        //country / state
         let browserDelayQ14 = DispatchQueue(label: "browswerBackgroundQ14", qos: .userInitiated)
         browserDelayQ14.asyncAfter(deadline: .now() + .milliseconds(450))
         {
@@ -899,33 +868,33 @@ class Supreme
             }
         }
         
-        //CCTYpe
+        //credit card type
         let browserDelayQ15 = DispatchQueue(label: "browswerBackgroundQ15", qos: .userInitiated)
         browserDelayQ15.asyncAfter(deadline: .now() + .milliseconds(480))
         {
             DispatchQueue.main.async{
-                if (self.defaults.bool(forKey: "EU") == true){
-                    if (self.defaults.string(forKey: "EUCard") == "Visa"){
+                if (self.location == "EU"){
+                    if (self.ccType == "Visa"){
                         self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementById('\(String(self.idCCType))\').focus()", completionHandler: nil)
                         
                         self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementById('\(String(self.idCCType))\').value = 'visa'", completionHandler: nil)
                         self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementById('\(String(self.idCCType))\').dispatchEvent(event)", completionHandler: nil)
                         
-                    }else if (self.defaults.string(forKey: "EUCard") == "American Express"){
+                    }else if (self.ccType == "American Express"){
                         self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementById('\(String(self.idCCType))\').focus()", completionHandler: nil)
                         
                         self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementById('\(String(self.idCCType))\').value = 'american_express'", completionHandler: nil)
                         self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementById('\(String(self.idCCType))\').dispatchEvent(event)", completionHandler: nil)
                         
                         
-                    }else if (self.defaults.string(forKey: "EUCard") == "Mastercard"){
+                    }else if (self.ccType == "Mastercard"){
                         self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementById('\(String(self.idCCType))\').focus()", completionHandler: nil)
                         
                         self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementById('\(String(self.idCCType))\').value = 'master'", completionHandler: nil)
                         self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementById('\(String(self.idCCType))\').dispatchEvent(event)", completionHandler: nil)
                         
                         
-                    }else if (self.defaults.string(forKey: "EUCard") == "Solo"){
+                    }else if (self.ccType == "Solo"){
                         self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementById('\(String(self.idCCType))\').focus()", completionHandler: nil)
                         
                         self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementById('\(String(self.idCCType))\').value = 'solo'", completionHandler: nil)
@@ -938,7 +907,8 @@ class Supreme
                 }
             }
         }
-        //CREDIT CARD NUMBER
+        
+        //credit card number
         let browserDelayQ16 = DispatchQueue(label: "browswerBackgroundQ16", qos: .userInitiated)
         browserDelayQ16.asyncAfter(deadline: .now() + .milliseconds(510)){
             DispatchQueue.main.async{
@@ -948,6 +918,8 @@ class Supreme
                 
             }
         }
+        
+        //credit card month
         let browserDelayQ17 = DispatchQueue(label: "browswerBackgroundQ17", qos: .userInitiated)
         browserDelayQ17.asyncAfter(deadline: .now() + .milliseconds(560)){
             DispatchQueue.main.async{
@@ -958,6 +930,8 @@ class Supreme
                 
             }
         }
+        
+        //credit card year
         let browserDelayQ18 = DispatchQueue(label: "browswerBackgroundQ18", qos: .userInitiated)
         browserDelayQ18.asyncAfter(deadline: .now() + .milliseconds(610)){
             DispatchQueue.main.async{
@@ -969,6 +943,7 @@ class Supreme
             }
         }
         
+        //credit card cvv
         let browserDelayQ19 = DispatchQueue(label: "browswerBackgroundQ19", qos: .userInitiated)
         browserDelayQ19.asyncAfter(deadline: .now() + .milliseconds(660))
         {
@@ -979,6 +954,8 @@ class Supreme
                 
             }
         }
+        
+        //order terms
         let browserDelayQ20 = DispatchQueue(label: "browswerBackgroundQ20", qos: .userInitiated)
         browserDelayQ20.asyncAfter(deadline: .now() + .milliseconds(710))
         {
@@ -990,13 +967,14 @@ class Supreme
             }
         }
 
-        //Check if ATC is enabled, if it is add delay for pasting CVV to avoid bot detection then checkout
-        if ((defaults.bool(forKey: "AutoATC")) == true){
-            
-            finalDelay = 760 + defaults.integer(forKey: "CheckoutDelay")
+        //check if atc is enabled
+        if (atc == true){
+            //760ms to fill out form + delay provided
+            finalDelay = 760 + atcDelay
             
             print("checking out with delay of ", String(finalDelay))
             
+            //click the checkout button
             print("Final delay is : " + String(finalDelay))
             let browserDelayQ21 = DispatchQueue(label: "browswerBackgroundQ21", qos: .userInitiated)
             browserDelayQ21.asyncAfter(deadline: .now() + .milliseconds(finalDelay))
@@ -1008,54 +986,21 @@ class Supreme
             }
 
         }
+        
+        //find the time to stop the bot
         var finishtime = 0
-        if ((defaults.bool(forKey: "AutoATC")) == true){
+        if (atc == true){
             finishtime = finalDelay
         }else{
             finishtime = 725
         }
         
+        //bot now complete
         let browserDelayQ22 = DispatchQueue(label: "browswerBackgroundQ22", qos: .userInitiated)
         browserDelayQ22.asyncAfter(deadline: .now() + .milliseconds(finishtime))
         {
             self.stopProcess()
         }
-    }
-    
-    
-    func restockCart(){
-        print("waiting for cart")
-        DispatchQueue.main.async{
-            self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementById('cart-update').children[0].innerHTML",
-                                                                    completionHandler:
-                { (style: Any?, error: Error?) in
-                    
-                    if style == nil{
-                        self.restockCart()
-                    }else{
-                        let strCartStyle = (style as! String)
-                        
-                        if strCartStyle == "remove" {
-                            self.defaults.set(false, forKey: "AutoATC")
-                            
-                            self.viewController?.supremeBrowser?.evaluateJavaScript("window.location.href = 'https://www.supremenewyork.com/mobile/#checkout';", completionHandler: nil)
-                            
-                            let browserDelayQRestockCartLoad = DispatchQueue(label: "browserDelayQRestockCartLoad", qos: .userInitiated)
-                            browserDelayQRestockCartLoad.asyncAfter(deadline: .now() + .milliseconds(500))
-                            {
-                                self.getCheckoutInfo()
-                            }
-                        }else{
-                            let browserDelayQRestock = DispatchQueue(label: "browserDelayQRestock", qos: .userInitiated)
-                            browserDelayQRestock.asyncAfter(deadline: .now() + .milliseconds(500))
-                            {
-                                self.restockCart()
-                            }
-                        }
-                    }
-            })
-        }
-
     }
     
     deinit
