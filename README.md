@@ -11,9 +11,10 @@
 * Written in newest version of Swift
 
 ## Disclaimers
-1. This bot is not guaranteed to work properly (it will most likely need some work done)
-2. It is stripped down to be very basic. The only way to edit information is by editing the Supreme.swift file
-3. I am not responsible for any misuse of this project (as stated by the Apache License)
+* This bot is not guaranteed to work properly (it will most likely need some work done)
+* It is stripped down to be very basic. The only way to edit information is by editing the Supreme.swift file
+* I am not responsible for any misuse of this project, it is distributed AS-IS
+* I am in no way affiliated with Supreme New York or any of their associates
 
 ## Instructions
 1. Clone the repository
@@ -22,8 +23,7 @@
 4. Run the bot by tapping Run
 
 ## Support and other information
-* I will not be providng support unless I messed something up in the Project
-* Updates are not guarenteed
+* Updates are not guaranteed
 * This was a project I had been working on since FW18 and I simply no longer have the time to keep up with Supreme and this project
 
 
