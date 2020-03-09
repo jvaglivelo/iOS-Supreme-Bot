@@ -28,15 +28,15 @@
 
 
 ## Screenshots
-![log-2](img/log2.png) **Two items checked out in 3 seconds (0 checkout delay)**
+<img src="/img/log2.png" width="350" />
 
+**Two items checked out in 3 seconds (0 checkout delay)**
 
-![log-1](img/log1.png)
+<img src="/img/log1.png" width="350" />
 
 **One item checked out in 2 seconds (0 checkout delay)**
 
-
-[![Video](https://i.ytimg.com/vi/3Zg67F4O4yI/sddefault.jpg)](https://www.youtube.com/watch?v=3Zg67F4O4yI&feature=youtu.be)
+<img src="https://i.ytimg.com/vi/3Zg67F4O4yI/sddefault.jpg" width="350" />(https://www.youtube.com/watch?v=3Zg67F4O4yI&feature=youtu.be)
 
 **Video of the bot running adding two items to the cart in 4 seconds (site was a little slow)**
 
