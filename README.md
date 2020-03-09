@@ -36,9 +36,11 @@
 
 **One item checked out in 2 seconds (0 checkout delay)**
 
-<img src="https://i.ytimg.com/vi/3Zg67F4O4yI/sddefault.jpg" width="350" />(https://www.youtube.com/watch?v=3Zg67F4O4yI&feature=youtu.be)
+[![Image](/img/YT.png)](https://www.youtube.com/watch?v=3Zg67F4O4yI&feature=youtu.be)
 
 **Video of the bot running adding two items to the cart in 4 seconds (site was a little slow)**
+
+**Click picture to open video in new tab**
 
 # License
 
