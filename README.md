@@ -8,7 +8,7 @@
 * All front end based, no web requests
 * Uses JSON to quickly find color and size information
 * Adds item to cart in 2 seconds (add additional second for every extra item)
-* Written in newest version of Swift
+* Compatible with Swift 5.0
 
 ## Disclaimers
 * This bot is not guaranteed to work properly (it will most likely need some work done)
