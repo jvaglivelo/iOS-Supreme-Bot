@@ -1,5 +1,5 @@
 # iOS Supreme Bot
-###### A Simple (and open source) Supreme Bot for iOS
+###### A Free (and open source) Supreme Bot for iOS
 
 ---
 
@@ -16,16 +16,24 @@
 * I am not responsible for any misuse of this project, it is distributed AS-IS
 * I am in no way affiliated with Supreme New York or any of their associates
 
-## Instructions
+## Installation
 1. Clone the repository
-2. Change the Signing and Capabilities tab in order to build / install the app
-3. Modify the beginning of Supreme.swift to match your desired information
-4. Run the bot by tapping Run
+2. Open the iOS-Supreme-Bot.xcworkspace and change the Signing and Capabilities tab in order to build / install the app.
 
-## Support and other information
-* Updates are not guaranteed
-* This was a project I had been working on since FW18 and I simply no longer have the time to keep up with Supreme and this project
+## Usage
+1. Modify the beginning of Supreme.swift to match your desired information.
+2. Run the bot by tapping Run.
+3. Feel free to modify and build upon the bot.
 
+Notes:
+* If an item does not have a size, use "n/a" as size.
+* Sizes are specific. Ex: "large" will only look for large. It is checking for exact instead of contains to make sure "large" does not cart an "xlarge".
+* Only tested for US region. Support for other regions included, but untested.
+
+## Support
+* If there is an issue, create a pull request or an issue and I will look into it.
+* New features are not likely to be added.
+* In-Store registration bot will likely be released at a later point in time (separate project).
 
 ## Screenshots
 <img src="/img/log2.png" width="350" />
