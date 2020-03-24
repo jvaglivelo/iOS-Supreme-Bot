@@ -29,10 +29,10 @@ class Supreme
     //Edit here
     
     //Item Info
-    var items:[String] = ["bead", "snake"]
-    var categories:[String] = ["accessories", "shirts"]
-    var sizes:[String] = ["n/a", "medium"]
-    var colors:[String] = ["red", "black"]
+    var items:[String] = ["snakeskin"]
+    var categories:[String] = ["shirts"]
+    var sizes:[String] = ["medium"]
+    var colors:[String] = ["gold"]
 
     //User Info
     var uName = "Test Person"
@@ -98,7 +98,7 @@ class Supreme
     var idCC = "cnid"
     var idCCM = "credit_card_month"
     var idCCY = "credit_card_year"
-    var idCVV = "cvv"
+    var idCVV = "credit_card[meknk]"
     
     var addressPt2 = false
 
@@ -515,6 +515,8 @@ class Supreme
                     browserDelayQColor.asyncAfter(deadline: .now() + .milliseconds(75))
                     {
                         DispatchQueue.main.async {
+                            self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementById(\"\(selectedStyle)\").getElementsByClassName('style-thumb')[0].dispatchEvent(event)", completionHandler: nil)
+                            
                             self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementById(\"\(selectedStyle)\").getElementsByClassName('style-thumb')[0].click()", completionHandler: nil)
                         }
                     }
@@ -947,9 +949,9 @@ class Supreme
         browserDelayQ19.asyncAfter(deadline: .now() + .milliseconds(660))
         {
             DispatchQueue.main.async{
-                self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementById('\(String(self.idCVV))\').focus()", completionHandler: nil)
+                self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementsByName('\(String(self.idCVV))\')[0].focus()", completionHandler: nil)
                 
-                self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementById('\(String(self.idCVV))\').value = \"\(String(self.uCCCVV))\"", completionHandler: nil)
+                self.viewController?.supremeBrowser?.evaluateJavaScript("document.getElementsByName('\(String(self.idCVV))\')[0].value = \"\(String(self.uCCCVV))\"", completionHandler: nil)
                 
             }
         }

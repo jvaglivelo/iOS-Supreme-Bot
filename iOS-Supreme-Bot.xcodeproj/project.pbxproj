@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -67,10 +67,10 @@
 		4AFEA626240995D800BA3893 /* iOS-Supreme-Bot */ = {
 			isa = PBXGroup;
 			children = (
+				4ACC92E02409C0F500B60A33 /* Supreme.swift */,
 				4AFEA627240995D800BA3893 /* AppDelegate.swift */,
 				4AFEA629240995D800BA3893 /* SceneDelegate.swift */,
 				4AFEA62B240995D800BA3893 /* ViewController.swift */,
-				4ACC92E02409C0F500B60A33 /* Supreme.swift */,
 				4AFEA62D240995D800BA3893 /* Main.storyboard */,
 				4AFEA633240995DA00BA3893 /* Assets.xcassets */,
 				4AFEA635240995DA00BA3893 /* LaunchScreen.storyboard */,
@@ -94,7 +94,6 @@
 				2E2F519A0F03C956D905094F /* Pods-iOS-Supreme-Bot.debug.xcconfig */,
 				E1F0DF45596D103A3E421823 /* Pods-iOS-Supreme-Bot.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
