@@ -39,7 +39,7 @@ class Supreme
     var uEmail = "test@gmail.com"
     var uPhone = "1234445678"
     var uAddress = "123 Fake St"
-    var uAddress2 = "Apt 69420"
+    var uAddress2 = ""
     var uCity = "New York City"
     var uState = "NY"
     var uZip = "10001"
